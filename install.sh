@@ -94,6 +94,15 @@ if [ -z "$INSTALL_DIR" ]; then
   INSTALL_DIR="/Volumes/share/shaders"
 fi
 
+case "$INSTALL_DIR" in
+  */yuleshow-rg34xx|*/yuleshow-rg34xx/)
+    INSTALL_DIR="${INSTALL_DIR%/}"
+    ;;
+  *)
+    INSTALL_DIR="${INSTALL_DIR%/}/yuleshow-rg34xx"
+    ;;
+esac
+
 if [ "$DRY_RUN" -eq 1 ]; then
   echo "Repository: $REPO"
   echo "Installation directory: $INSTALL_DIR"
