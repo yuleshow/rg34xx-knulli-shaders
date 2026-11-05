@@ -14,8 +14,6 @@
 
 #ifdef GL_ES
 precision mediump float;
-#else
-#define COMPAT_PRECISION
 #endif
 
 COMPAT_ATTRIBUTE vec4 VertexCoord;
@@ -47,19 +45,17 @@ precision highp float;
 #else
 precision mediump float;
 #endif
-#else
-#define COMPAT_PRECISION
 #endif
 
 COMPAT_VARYING vec2 vTexCoord;
-uniform COMPAT_PRECISION sampler2D Texture;
-uniform COMPAT_PRECISION vec2 TextureSize;
-uniform COMPAT_PRECISION vec2 InputSize;
-uniform COMPAT_PRECISION vec2 OutputSize;
-uniform COMPAT_PRECISION float GBA_GRID_INTENSITY;
-uniform COMPAT_PRECISION float GBA_PIXEL_SHARPEN;
-uniform COMPAT_PRECISION float GBA_PIXEL_BRIGHTNESS;
-uniform COMPAT_PRECISION float GBA_GRID_GAMMA;
+uniform sampler2D Texture;
+uniform vec2 TextureSize;
+uniform vec2 InputSize;
+uniform vec2 OutputSize;
+uniform float GBA_GRID_INTENSITY;
+uniform float GBA_PIXEL_SHARPEN;
+uniform float GBA_PIXEL_BRIGHTNESS;
+uniform float GBA_GRID_GAMMA;
 
 void main()
 {

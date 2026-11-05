@@ -16,8 +16,6 @@
 
 #ifdef GL_ES
   precision mediump float;
-#else
-  #define COMPAT_PRECISION
 #endif
 
 COMPAT_ATTRIBUTE vec4 VertexCoord;
@@ -49,21 +47,19 @@ void main()
   #else
     precision mediump float;
   #endif
-#else
-  #define COMPAT_PRECISION
 #endif
 
 COMPAT_VARYING vec2 vTexCoord;
-uniform COMPAT_PRECISION sampler2D Texture;
-uniform COMPAT_PRECISION vec2 TextureSize;
-uniform COMPAT_PRECISION vec2 InputSize;
-uniform COMPAT_PRECISION vec2 OutputSize;
-uniform COMPAT_PRECISION float SCANLINE_INTENSITY;
-uniform COMPAT_PRECISION float MASK_INTENSITY;
-uniform COMPAT_PRECISION float MASK_SIZE;
-uniform COMPAT_PRECISION float CRT_CURVE;
-uniform COMPAT_PRECISION float PIXEL_SHARPEN;
-uniform COMPAT_PRECISION float OUTPUT_BRIGHTNESS;
+uniform sampler2D Texture;
+uniform vec2 TextureSize;
+uniform vec2 InputSize;
+uniform vec2 OutputSize;
+uniform float SCANLINE_INTENSITY;
+uniform float MASK_INTENSITY;
+uniform float MASK_SIZE;
+uniform float CRT_CURVE;
+uniform float PIXEL_SHARPEN;
+uniform float OUTPUT_BRIGHTNESS;
 
 vec2 curveUv(vec2 uv)
 {
