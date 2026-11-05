@@ -32,5 +32,5 @@ choose an explicit location:
 curl -fsSL https://raw.githubusercontent.com/yuleshow/rg34xx-knulli-shaders/main/install.sh | sh -s -- --dir /Volumes/share
 ```
 
-This installs the shaders under `/Volumes/share/yuleshow-rg34xx/`. The installer
+This installs the shaders under `/Volumes/share/shaders/yuleshow-rg34xx/`. The installer
 creates both missing directories automatically.

@@ -75,28 +75,32 @@ rg34xx_pc_engine.glslp
 rg34xx_pc_engine_cd.glslp"
 
 if [ -z "$INSTALL_DIR" ]; then
-  for candidate in \
-    /Volumes/share/shaders \
-    /Volumes/share/system/configs/retroarch/shaders \
-    /Volumes/share \
-    /userdata/shaders \
-    /userdata/system/configs/retroarch/shaders \
-    "$HOME/.config/retroarch/shaders"
-  do
-    if [ -d "$candidate" ]; then
-      INSTALL_DIR="$candidate"
-      break
-    fi
-  done
+  if [ -d "/Volumes/share" ]; then
+    INSTALL_DIR="/Volumes/share/shaders"
+  else
+    for candidate in \
+      /userdata/shaders \
+      /userdata/system/configs/retroarch/shaders \
+      "$HOME/.config/retroarch/shaders"
+    do
+      if [ -d "$candidate" ]; then
+        INSTALL_DIR="$candidate"
+        break
+      fi
+    done
+  fi
 fi
 
 if [ -z "$INSTALL_DIR" ]; then
-  INSTALL_DIR="/Volumes/share/shaders"
+  INSTALL_DIR="/userdata/shaders"
 fi
 
 case "$INSTALL_DIR" in
   */yuleshow-rg34xx|*/yuleshow-rg34xx/)
     INSTALL_DIR="${INSTALL_DIR%/}"
+    ;;
+  /Volumes/share)
+    INSTALL_DIR="/Volumes/share/shaders/yuleshow-rg34xx"
     ;;
   *)
     INSTALL_DIR="${INSTALL_DIR%/}/yuleshow-rg34xx"
