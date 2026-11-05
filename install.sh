@@ -76,6 +76,9 @@ rg34xx_pc_engine_cd.glslp"
 
 if [ -z "$INSTALL_DIR" ]; then
   for candidate in \
+    /Volumes/share/shaders \
+    /Volumes/share/system/configs/retroarch/shaders \
+    /Volumes/share \
     /userdata/shaders \
     /userdata/system/configs/retroarch/shaders \
     "$HOME/.config/retroarch/shaders"
@@ -88,7 +91,7 @@ if [ -z "$INSTALL_DIR" ]; then
 fi
 
 if [ -z "$INSTALL_DIR" ]; then
-  INSTALL_DIR="/userdata/shaders"
+  INSTALL_DIR="/Volumes/share/shaders"
 fi
 
 if [ "$DRY_RUN" -eq 1 ]; then
