@@ -22,12 +22,12 @@ also compatible with their standalone core aliases.
 From the Knulli device, run:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/yuleshow-github/rg34xx-knulli-shaders/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/yuleshow/rg34xx-knulli-shaders/main/install.sh | sh
 ```
 
 The installer automatically uses an existing RetroArch shader directory. To
 choose an explicit location:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/yuleshow-github/rg34xx-knulli-shaders/main/install.sh | sh -s -- --dir /userdata/shaders
+curl -fsSL https://raw.githubusercontent.com/yuleshow/rg34xx-knulli-shaders/main/install.sh | sh -s -- --dir /userdata/shaders
 ```

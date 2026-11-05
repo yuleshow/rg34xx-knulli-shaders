@@ -2,7 +2,7 @@
 
 set -eu
 
-REPO="${SHADER_REPO:-yuleshow-github/rg34xx-knulli-shaders}"
+REPO="${SHADER_REPO:-yuleshow/rg34xx-knulli-shaders}"
 BRANCH="${SHADER_BRANCH:-}"
 INSTALL_DIR="${SHADERS_DIR:-}"
 DRY_RUN=0
