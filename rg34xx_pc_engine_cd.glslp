@@ -1,0 +1,11 @@
+shaders = 1
+shader0 = "rg34xx_crt.glsl"
+filter_linear0 = "true"
+scale_type0 = "source"
+scale0 = "1.000000"
+SCANLINE_INTENSITY = 0.22
+MASK_INTENSITY = 0.08
+MASK_SIZE = 3.0
+CRT_CURVE = 0.13
+PIXEL_SHARPEN = 0.50
+OUTPUT_BRIGHTNESS = 1.04

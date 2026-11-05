@@ -1,0 +1,9 @@
+shaders = 1
+shader0 = "rg34xx_gba_granular.glsl"
+filter_linear0 = "true"
+scale_type0 = "source"
+scale0 = "1.000000"
+GBA_GRID_INTENSITY = 0.18
+GBA_PIXEL_SHARPEN = 0.72
+GBA_PIXEL_BRIGHTNESS = 1.10
+GBA_GRID_GAMMA = 0.92
