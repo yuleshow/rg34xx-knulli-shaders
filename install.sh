@@ -151,5 +151,10 @@ for file in $FILES; do
   fi
 done
 
-cp "$TEMP_DIR"/* "$INSTALL_DIR/"
+for file in $FILES; do
+  cat "$TEMP_DIR/$file" > "$INSTALL_DIR/$file" || {
+    echo "Failed to install $file to $INSTALL_DIR." >&2
+    exit 1
+  }
+done
 printf 'Installed %s shader files in %s\n' "$(printf '%s\n' "$FILES" | wc -l | tr -d ' ')" "$INSTALL_DIR"
