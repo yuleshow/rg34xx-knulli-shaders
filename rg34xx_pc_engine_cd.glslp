@@ -1,7 +1,7 @@
 shaders = 1
 shader0 = "rg34xx_crt.glsl"
 filter_linear0 = "true"
-scale_type0 = "source"
+scale_type0 = "viewport"
 scale0 = "1.000000"
 SCANLINE_INTENSITY = 0.22
 MASK_INTENSITY = 0.08

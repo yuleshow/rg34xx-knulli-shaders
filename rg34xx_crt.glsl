@@ -16,11 +16,14 @@
 
 #ifdef GL_ES
   precision mediump float;
+  #define COMPAT_VARYING_PRECISION highp
+#else
+  #define COMPAT_VARYING_PRECISION
 #endif
 
 COMPAT_ATTRIBUTE vec4 VertexCoord;
 COMPAT_ATTRIBUTE vec4 TexCoord;
-COMPAT_VARYING vec2 vTexCoord;
+COMPAT_VARYING COMPAT_VARYING_PRECISION vec2 vTexCoord;
 
 uniform mat4 MVPMatrix;
 
@@ -48,8 +51,8 @@ void main()
     precision mediump float;
   #endif
 #endif
+COMPAT_VARYING COMPAT_VARYING_PRECISION vec2 vTexCoord;
 
-COMPAT_VARYING vec2 vTexCoord;
 uniform sampler2D Texture;
 uniform vec2 TextureSize;
 uniform vec2 InputSize;
