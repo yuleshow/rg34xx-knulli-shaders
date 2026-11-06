@@ -3,6 +3,12 @@
 #pragma parameter GBA_PIXEL_BRIGHTNESS "Brightness" 1.10 0.7 1.4 0.01
 #pragma parameter GBA_GRID_GAMMA "Granular gamma" 0.92 0.8 1.1 0.01
 
+#ifdef GL_ES
+#define COMPAT_VARYING_PRECISION mediump
+#else
+#define COMPAT_VARYING_PRECISION
+#endif
+
 #if defined(VERTEX)
 #if __VERSION__ >= 130
 #define COMPAT_VARYING out
@@ -14,9 +20,6 @@
 
 #ifdef GL_ES
 precision mediump float;
-#define COMPAT_VARYING_PRECISION highp
-#else
-#define COMPAT_VARYING_PRECISION
 #endif
 
 COMPAT_ATTRIBUTE vec4 VertexCoord;

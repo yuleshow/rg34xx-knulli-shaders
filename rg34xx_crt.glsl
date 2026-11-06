@@ -5,6 +5,12 @@
 #pragma parameter PIXEL_SHARPEN "Pixel sharpening" 0.55 0.0 1.0 0.05
 #pragma parameter OUTPUT_BRIGHTNESS "Brightness" 1.04 0.5 1.4 0.01
 
+#ifdef GL_ES
+  #define COMPAT_VARYING_PRECISION mediump
+#else
+  #define COMPAT_VARYING_PRECISION
+#endif
+
 #if defined(VERTEX)
 #if __VERSION__ >= 130
   #define COMPAT_VARYING out
@@ -16,9 +22,6 @@
 
 #ifdef GL_ES
   precision mediump float;
-  #define COMPAT_VARYING_PRECISION highp
-#else
-  #define COMPAT_VARYING_PRECISION
 #endif
 
 COMPAT_ATTRIBUTE vec4 VertexCoord;
