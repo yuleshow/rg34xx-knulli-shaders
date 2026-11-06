@@ -35,6 +35,11 @@
 #pragma parameter bg_shade_dist "  Shading Distance (px at 640x480)" 2.0 0.0 8.0 0.5
 #pragma parameter fake_ghost "Fake Ghosting" 0.0 0.0 1.0 1.0
 
+#ifdef GL_ES
+#define COMPAT_VARYING_PRECISION mediump
+#else
+#define COMPAT_VARYING_PRECISION
+#endif
 
 #if defined(VERTEX)
 #if __VERSION__ >= 130
@@ -46,11 +51,6 @@
 #endif
 #ifdef GL_ES
 precision mediump float;
-#endif
-#ifdef GL_ES
-#define COMPAT_VARYING_PRECISION mediump
-#else
-#define COMPAT_VARYING_PRECISION
 #endif
 COMPAT_ATTRIBUTE vec4 VertexCoord;
 COMPAT_ATTRIBUTE vec4 TexCoord;
@@ -79,7 +79,8 @@ precision mediump float;
 #define COMPAT_VARYING varying
 #endif
 COMPAT_VARYING COMPAT_VARYING_PRECISION vec2 v_uv;
-uniform sampler2D u_tex;
+uniform sampler2D Texture;
+#define u_tex Texture
 uniform vec2 TextureSize;
 uniform vec2 OutputSize;
 uniform vec2 InputSize;
@@ -107,6 +108,8 @@ out vec4 FragColorCompat;
 // fake ghosting
 const float GHOST_STRENGTH = 0.5;
 const float GHOST_LENGTH   = 5.0; // px at 640x480, trails to the right
+const float BORDER_RADIUS = 0.025;
+const float BORDER_SMOOTH = 60.0;
 
 // a + b * sin(2 * PI * q), with a cheap sine: a parabola plus one refinement step.
 // Keep it highp, some GPUs lose the grid at lower precision.
@@ -217,10 +220,10 @@ void main() {
 
     // Auto-adjusting sharp-bilinear sampling: uses the real scale, not the
     // rounded one, so it adapts on its own. Sharp when the scale is an exact
-    // integer, softer when it's fractional.
-    highp vec2 p = v_uv * res;
+    // integer, softer when fractional.
+    highp vec2 p = v_uv * TextureSize;
     highp vec2 edge = floor(p + 0.5);
-    highp vec2 coord = (edge + 0.5 * clamp((p - edge) * (2.0 * sample_scale), -1.0, 1.0)) * inv_res;
+    highp vec2 coord = (edge + 0.5 * clamp((p - edge) * (2.0 * sample_scale), -1.0, 1.0)) / TextureSize;
 
     // Each grid reads the picture itself, so only the chosen one is worked out.
     vec3 col;
