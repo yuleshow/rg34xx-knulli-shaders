@@ -93,20 +93,36 @@ if [ -z "$INSTALL_DIR" ]; then
   elif [ -d "/Volumes/SHARE 1" ]; then
     INSTALL_DIR="/Volumes/SHARE 1/shaders"
   else
-    for candidate in \
-      /userdata/shaders \
-      /userdata/system/configs/retroarch/shaders \
-      "$HOME/.config/retroarch/shaders"
-    do
-      if [ -d "$candidate" ]; then
-        INSTALL_DIR="$candidate"
-        break
-      fi
+    for candidate in /Volumes/*; do
+      [ -d "$candidate" ] || continue
+      case "$(basename "$candidate")" in
+        SHARE|SHARE\ *)
+          INSTALL_DIR="$candidate/shaders"
+          break
+          ;;
+      esac
     done
+
+    if [ -z "$INSTALL_DIR" ]; then
+      for candidate in \
+        /userdata/shaders \
+        /userdata/system/configs/retroarch/shaders \
+        "$HOME/.config/retroarch/shaders"
+      do
+        if [ -d "$candidate" ]; then
+          INSTALL_DIR="$candidate"
+          break
+        fi
+      done
+    fi
   fi
 fi
 
 if [ -z "$INSTALL_DIR" ]; then
+  if [ "$(uname -s 2>/dev/null)" = "Darwin" ]; then
+    echo "Could not find the mounted SHARE volume under /Volumes. Mount SHARE, then retry." >&2
+    exit 1
+  fi
   INSTALL_DIR="/userdata/shaders"
 fi
 
