@@ -109,7 +109,10 @@ if [ -z "$INSTALL_DIR" ]; then
 fi
 
 case "$INSTALL_DIR" in
-  */yuleshow-rg34xx-bagel-mini|*/yuleshow-rg34xx-bagel-mini/|*/yuleshow-rg34xx|*/yuleshow-rg34xx/)
+  */yuleshow-rg34xx-bagel-mini|*/yuleshow-rg34xx-bagel-mini/)
+    INSTALL_DIR="$(dirname "${INSTALL_DIR%/}")/yuleshow-rg34xx"
+    ;;
+  */yuleshow-rg34xx|*/yuleshow-rg34xx/)
     INSTALL_DIR="${INSTALL_DIR%/}"
     ;;
   /Volumes/share)
@@ -123,6 +126,7 @@ esac
 if [ "$DRY_RUN" -eq 1 ]; then
   echo "Repository: $REPO"
   echo "Installation directory: $INSTALL_DIR"
+  echo "Bagel Mini installation directory: $(dirname "$INSTALL_DIR")/yuleshow-rg34xx-bagel-mini"
   printf "Files:\n%s\n%s\n" "$FILES" "$SOURCE_FILES"
   exit 0
 fi
@@ -165,6 +169,14 @@ for file in $FILES $SOURCE_FILES $BAGEL_FILES $BAGEL_SOURCE_FILES "$CONFIG_FILE"
   fi
 done
 
+BAGEL_INSTALL_DIR="$(dirname "$INSTALL_DIR")/yuleshow-rg34xx-bagel-mini"
+if [ ! -d "$BAGEL_INSTALL_DIR" ]; then
+  mkdir -p "$BAGEL_INSTALL_DIR" || {
+    echo "Cannot create Bagel Mini installation directory: $BAGEL_INSTALL_DIR" >&2
+    exit 1
+  }
+fi
+
 SOURCE_DIR="$INSTALL_DIR/sources"
 if [ ! -d "$SOURCE_DIR" ]; then
   mkdir -p "$SOURCE_DIR" || {
@@ -201,7 +213,6 @@ cat "$TEMP_DIR/$CONFIG_FILE" > "$CONFIG_DIR/$CONFIG_FILE" || {
   exit 1
 }
 
-BAGEL_INSTALL_DIR="${SHADER_ROOT}/yuleshow-rg34xx-bagel-mini"
 mkdir -p "$BAGEL_INSTALL_DIR/sources"
 for file in $BAGEL_FILES; do
   cat "$TEMP_DIR/$file" > "$BAGEL_INSTALL_DIR/$file" || {
@@ -221,3 +232,4 @@ cat "$TEMP_DIR/$BAGEL_CONFIG_FILE" > "$BAGEL_CONFIG_DIR/$CONFIG_FILE" || {
   exit 1
 }
 printf 'Installed %s shader files in %s\n' "$(printf '%s\n' "$FILES" | wc -l | tr -d ' ')" "$INSTALL_DIR"
+printf 'Installed %s Bagel Mini shader files in %s\n' "$(printf '%s\n' "$BAGEL_FILES" | wc -l | tr -d ' ')" "$BAGEL_INSTALL_DIR"
