@@ -1,7 +1,7 @@
 # RG34XX RetroArch shader presets
 
-These presets use a lightweight CRT shader tuned for the RG34XX's 320x480
-portrait display. Select a preset from RetroArch's **Shaders** menu.
+These presets use a lightweight CRT shader tuned for the RG34XX's 720x480
+landscape display. Select a preset from RetroArch's **Shaders** menu.
 
 | System | Preset |
 | --- | --- |

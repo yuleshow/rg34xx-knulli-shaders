@@ -1,0 +1,16 @@
+default:
+  shader: yuleshow-rg34xx/rg34xx_gba_granular
+gba:
+  shader: yuleshow-rg34xx/rg34xx_gba_granular
+gb:
+  shader: yuleshow-rg34xx/rg34xx_gb
+gbc:
+  shader: yuleshow-rg34xx/rg34xx_gbc
+nes:
+  shader: yuleshow-rg34xx/rg34xx_nes
+snes:
+  shader: yuleshow-rg34xx/rg34xx_snes
+pcengine:
+  shader: yuleshow-rg34xx/rg34xx_pc_engine
+pcenginecd:
+  shader: yuleshow-rg34xx/rg34xx_pc_engine_cd

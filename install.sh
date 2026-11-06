@@ -74,6 +74,8 @@ rg34xx_gbc.glslp
 rg34xx_pc_engine.glslp
 rg34xx_pc_engine_cd.glslp"
 
+CONFIG_FILE="rendering-defaults.yml"
+
 if [ -z "$INSTALL_DIR" ]; then
   if [ -d "/Volumes/share" ]; then
     INSTALL_DIR="/Volumes/share/shaders"
@@ -144,7 +146,7 @@ TEMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/rg34xx-shaders.XXXXXX")"
 trap 'rm -rf "$TEMP_DIR"' EXIT HUP INT TERM
 
 printf 'Downloading RG34XX shaders from %s (%s)...\n' "$REPO" "$BRANCH"
-for file in $FILES; do
+for file in $FILES "$CONFIG_FILE"; do
   if ! curl -fL --retry 3 "$BASE_URL/$file" -o "$TEMP_DIR/$file"; then
     echo "Failed to download $file." >&2
     exit 1
@@ -157,4 +159,17 @@ for file in $FILES; do
     exit 1
   }
 done
+
+SHADER_ROOT="${INSTALL_DIR%/yuleshow-rg34xx}"
+CONFIG_DIR="$SHADER_ROOT/configs/yuleshow-rg34xx"
+if [ ! -d "$CONFIG_DIR" ]; then
+  mkdir -p "$CONFIG_DIR" || {
+    echo "Cannot create configuration directory: $CONFIG_DIR" >&2
+    exit 1
+  }
+fi
+cat "$TEMP_DIR/$CONFIG_FILE" > "$CONFIG_DIR/$CONFIG_FILE" || {
+  echo "Failed to install $CONFIG_FILE to $CONFIG_DIR." >&2
+  exit 1
+}
 printf 'Installed %s shader files in %s\n' "$(printf '%s\n' "$FILES" | wc -l | tr -d ' ')" "$INSTALL_DIR"
