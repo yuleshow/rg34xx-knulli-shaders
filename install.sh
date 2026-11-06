@@ -64,15 +64,16 @@ if ! command -v curl >/dev/null 2>&1; then
   exit 1
 fi
 
-FILES="rg34xx_crt.glsl
-rg34xx_gba_granular.glsl
-rg34xx_nes.glslp
+FILES="rg34xx_nes.glslp
 rg34xx_snes.glslp
 rg34xx_gba_granular.glslp
 rg34xx_gb.glslp
 rg34xx_gbc.glslp
 rg34xx_pc_engine.glslp
 rg34xx_pc_engine_cd.glslp"
+
+SOURCE_FILES="sources/rg34xx_crt.glsl
+sources/rg34xx_gba_granular.glsl"
 
 CONFIG_FILE="rendering-defaults.yml"
 
@@ -112,7 +113,7 @@ esac
 if [ "$DRY_RUN" -eq 1 ]; then
   echo "Repository: $REPO"
   echo "Installation directory: $INSTALL_DIR"
-  printf "Files:\n%s\n" "$FILES"
+  printf "Files:\n%s\n%s\n" "$FILES" "$SOURCE_FILES"
   exit 0
 fi
 
@@ -130,9 +131,9 @@ detect_branch()
     return
   fi
 
-  if curl -fsSL "https://raw.githubusercontent.com/$REPO/main/rg34xx_crt.glsl" -o /dev/null; then
+  if curl -fsSL "https://raw.githubusercontent.com/$REPO/main/sources/rg34xx_crt.glsl" -o /dev/null; then
     printf '%s' "main"
-  elif curl -fsSL "https://raw.githubusercontent.com/$REPO/master/rg34xx_crt.glsl" -o /dev/null; then
+  elif curl -fsSL "https://raw.githubusercontent.com/$REPO/master/sources/rg34xx_crt.glsl" -o /dev/null; then
     printf '%s' "master"
   else
     echo "Could not find rg34xx_crt.glsl in $REPO on main or master." >&2
@@ -144,18 +145,35 @@ BRANCH="$(detect_branch)"
 BASE_URL="https://raw.githubusercontent.com/$REPO/$BRANCH"
 TEMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/rg34xx-shaders.XXXXXX")"
 trap 'rm -rf "$TEMP_DIR"' EXIT HUP INT TERM
+mkdir -p "$TEMP_DIR/sources"
 
 printf 'Downloading RG34XX shaders from %s (%s)...\n' "$REPO" "$BRANCH"
-for file in $FILES "$CONFIG_FILE"; do
+for file in $FILES $SOURCE_FILES "$CONFIG_FILE"; do
   if ! curl -fL --retry 3 "$BASE_URL/$file" -o "$TEMP_DIR/$file"; then
     echo "Failed to download $file." >&2
     exit 1
   fi
 done
 
+SOURCE_DIR="$INSTALL_DIR/sources"
+if [ ! -d "$SOURCE_DIR" ]; then
+  mkdir -p "$SOURCE_DIR" || {
+    echo "Cannot create source directory: $SOURCE_DIR" >&2
+    exit 1
+  }
+fi
+
 for file in $FILES; do
   cat "$TEMP_DIR/$file" > "$INSTALL_DIR/$file" || {
     echo "Failed to install $file to $INSTALL_DIR." >&2
+    exit 1
+  }
+done
+
+for file in $SOURCE_FILES; do
+  name="${file#sources/}"
+  cat "$TEMP_DIR/$file" > "$SOURCE_DIR/$name" || {
+    echo "Failed to install $file to $SOURCE_DIR." >&2
     exit 1
   }
 done
