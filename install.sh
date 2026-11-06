@@ -90,6 +90,8 @@ BAGEL_CONFIG_FILE="bagel-mini-rendering-defaults.yml"
 if [ -z "$INSTALL_DIR" ]; then
   if [ -d "/Volumes/share" ]; then
     INSTALL_DIR="/Volumes/share/shaders"
+  elif [ -d "/Volumes/SHARE 1" ]; then
+    INSTALL_DIR="/Volumes/SHARE 1/shaders"
   else
     for candidate in \
       /userdata/shaders \
@@ -115,8 +117,11 @@ case "$INSTALL_DIR" in
   */yuleshow-rg34xx|*/yuleshow-rg34xx/)
     INSTALL_DIR="${INSTALL_DIR%/}"
     ;;
-  /Volumes/share)
+  /Volumes/share|/Volumes/share/)
     INSTALL_DIR="/Volumes/share/shaders/yuleshow-rg34xx"
+    ;;
+  "/Volumes/SHARE 1"|"/Volumes/SHARE 1/")
+    INSTALL_DIR="/Volumes/SHARE 1/shaders/yuleshow-rg34xx"
     ;;
   *)
     INSTALL_DIR="${INSTALL_DIR%/}/yuleshow-rg34xx"

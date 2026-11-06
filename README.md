@@ -36,8 +36,8 @@ The installer automatically uses an existing RetroArch shader directory. To
 choose an explicit location:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/yuleshow/rg34xx-knulli-shaders/main/install.sh | sh -s -- --dir /Volumes/share
+curl -fsSL https://raw.githubusercontent.com/yuleshow/rg34xx-knulli-shaders/main/install.sh | sh -s -- --dir "/Volumes/SHARE 1"
 ```
 
-This installs the shaders under `/Volumes/share/shaders/yuleshow-rg34xx/`. The installer
+This installs the shaders under `/Volumes/SHARE 1/shaders/yuleshow-rg34xx/`. The installer
 creates both missing directories automatically.
