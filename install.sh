@@ -75,7 +75,17 @@ rg34xx_pc_engine_cd.glslp"
 SOURCE_FILES="sources/rg34xx_crt.glsl
 sources/rg34xx_gba_granular.glsl"
 
+BAGEL_FILES="rg34xx_bagel_nes.glslp
+rg34xx_bagel_snes.glslp
+rg34xx_bagel_gba.glslp
+rg34xx_bagel_gb.glslp
+rg34xx_bagel_gbc.glslp
+rg34xx_bagel_pc_engine.glslp
+rg34xx_bagel_pc_engine_cd.glslp"
+BAGEL_SOURCE_FILES="sources/bagel-LCD-mini.glsl"
+
 CONFIG_FILE="rendering-defaults.yml"
+BAGEL_CONFIG_FILE="bagel-mini-rendering-defaults.yml"
 
 if [ -z "$INSTALL_DIR" ]; then
   if [ -d "/Volumes/share" ]; then
@@ -99,7 +109,7 @@ if [ -z "$INSTALL_DIR" ]; then
 fi
 
 case "$INSTALL_DIR" in
-  */yuleshow-rg34xx|*/yuleshow-rg34xx/)
+  */yuleshow-rg34xx-bagel-mini|*/yuleshow-rg34xx-bagel-mini/|*/yuleshow-rg34xx|*/yuleshow-rg34xx/)
     INSTALL_DIR="${INSTALL_DIR%/}"
     ;;
   /Volumes/share)
@@ -148,7 +158,7 @@ trap 'rm -rf "$TEMP_DIR"' EXIT HUP INT TERM
 mkdir -p "$TEMP_DIR/sources"
 
 printf 'Downloading RG34XX shaders from %s (%s)...\n' "$REPO" "$BRANCH"
-for file in $FILES $SOURCE_FILES "$CONFIG_FILE"; do
+for file in $FILES $SOURCE_FILES $BAGEL_FILES $BAGEL_SOURCE_FILES "$CONFIG_FILE" "$BAGEL_CONFIG_FILE"; do
   if ! curl -fL --retry 3 "$BASE_URL/$file" -o "$TEMP_DIR/$file"; then
     echo "Failed to download $file." >&2
     exit 1
@@ -178,7 +188,7 @@ for file in $SOURCE_FILES; do
   }
 done
 
-SHADER_ROOT="${INSTALL_DIR%/yuleshow-rg34xx}"
+SHADER_ROOT="$(dirname "$INSTALL_DIR")"
 CONFIG_DIR="$SHADER_ROOT/configs/yuleshow-rg34xx"
 if [ ! -d "$CONFIG_DIR" ]; then
   mkdir -p "$CONFIG_DIR" || {
@@ -188,6 +198,26 @@ if [ ! -d "$CONFIG_DIR" ]; then
 fi
 cat "$TEMP_DIR/$CONFIG_FILE" > "$CONFIG_DIR/$CONFIG_FILE" || {
   echo "Failed to install $CONFIG_FILE to $CONFIG_DIR." >&2
+  exit 1
+}
+
+BAGEL_INSTALL_DIR="${SHADER_ROOT}/yuleshow-rg34xx-bagel-mini"
+mkdir -p "$BAGEL_INSTALL_DIR/sources"
+for file in $BAGEL_FILES; do
+  cat "$TEMP_DIR/$file" > "$BAGEL_INSTALL_DIR/$file" || {
+    echo "Failed to install $file to $BAGEL_INSTALL_DIR." >&2
+    exit 1
+  }
+done
+name="${BAGEL_SOURCE_FILES#sources/}"
+cat "$TEMP_DIR/$BAGEL_SOURCE_FILES" > "$BAGEL_INSTALL_DIR/sources/$name" || {
+  echo "Failed to install $BAGEL_SOURCE_FILES to $BAGEL_INSTALL_DIR/sources." >&2
+  exit 1
+}
+BAGEL_CONFIG_DIR="$SHADER_ROOT/configs/yuleshow-rg34xx-bagel-mini"
+mkdir -p "$BAGEL_CONFIG_DIR"
+cat "$TEMP_DIR/$BAGEL_CONFIG_FILE" > "$BAGEL_CONFIG_DIR/$CONFIG_FILE" || {
+  echo "Failed to install $BAGEL_CONFIG_FILE to $BAGEL_CONFIG_DIR." >&2
   exit 1
 }
 printf 'Installed %s shader files in %s\n' "$(printf '%s\n' "$FILES" | wc -l | tr -d ' ')" "$INSTALL_DIR"

@@ -1,0 +1,16 @@
+default:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_gba
+gba:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_gba
+gb:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_gb
+gbc:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_gbc
+nes:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_nes
+snes:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_snes
+pcengine:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_pc_engine
+pcenginecd:
+  shader: yuleshow-rg34xx-bagel-mini/rg34xx_bagel_pc_engine_cd

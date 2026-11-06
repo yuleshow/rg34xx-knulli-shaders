@@ -13,6 +13,12 @@ landscape display. Select a preset from RetroArch's **Shaders** menu.
 | PC Engine / TurboGrafx-16 | `rg34xx_pc_engine.glslp` |
 | PC Engine CD / TurboGrafx-CD | `rg34xx_pc_engine_cd.glslp` |
 
+## Bagel LCD Mini set
+
+The `rg34xx_bagel_*.glslp` presets port Bagel LCD Mini as the separate
+`yuleshow-rg34xx-bagel-mini` shader set. Their source is
+`sources/bagel-LCD-mini.glsl`.
+
 Keep the seven presets together in `yuleshow-rg34xx/`; raw `.glsl` sources
 are stored separately in `yuleshow-rg34xx/sources/` and are referenced by
 their presets. Apply a preset for the content's core; the system presets are
